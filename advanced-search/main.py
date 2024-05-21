@@ -1,10 +1,8 @@
-import requests
-from bs4 import BeautifulSoup as bs
 import pandas as pd
 from selenium import webdriver
 from selenium.webdriver.common.by import By
-from selenium.webdriver.support.wait import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
+# from selenium.webdriver.support.wait import WebDriverWait
+# from selenium.webdriver.support import expected_conditions as EC
 import time
 import math
 
@@ -14,7 +12,10 @@ def clickNTimes(data_count, driver):
     more_button = driver.find_element(By.CLASS_NAME, 'ipc-see-more')
     for i in range(click_count):
         time.sleep(5)
-        driver.execute_script("window.scrollTo(0, document.body.scrollHeight)")
+        driver.execute_script('''
+        const button = document.getElementsByClassName('ipc-see-more')[0];
+        button.scrollIntoView();
+        ''')
         time.sleep(1)
         more_button.click()
 
@@ -23,6 +24,7 @@ def getListItemData(element):
         content = element.find_element(By.CLASS_NAME, 'dli-plot-container').find_element(By.CLASS_NAME, 'ipc-html-content-inner-div').text
     except: 
         content = ''
+    # todo: write a getText and getAttribute methods to handle this values without throw
     return {
         'title': element.find_element(By.CLASS_NAME, 'ipc-title__text').text,
         'year': element.find_element(By.CLASS_NAME, 'dli-title-metadata-item').text,
@@ -32,8 +34,8 @@ def getListItemData(element):
     }
 
 
-url = 'https://www.imdb.com/search/title/?user_rating=6,10&genres=reality-tv'
-data_count = 1000
+url = 'https://www.imdb.com/search/title/?title_type=tv_series&user_rating=6,10&genres=reality-tv&sort=num_votes,desc'
+data_count = 6800
 
 driver = webdriver.Chrome()
 driver.get(url)
@@ -45,5 +47,5 @@ dataset = []
 for elem in elems:
     dataset.append(getListItemData(elem))
 df = pd.DataFrame(dataset)
-df.to_csv('./out.csv')
+df.to_csv('./out_final.csv')
 driver.quit()
