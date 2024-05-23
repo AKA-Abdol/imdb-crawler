@@ -2,27 +2,13 @@ import pandas as pd
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.remote.webelement import WebElement
-from selenium.webdriver.remote.webdriver import WebDriver 
+from selenium.webdriver.remote.webdriver import WebDriver
+from common.getters import getAttribute, getText
 
 # from selenium.webdriver.support.wait import WebDriverWait
 # from selenium.webdriver.support import expected_conditions as EC
 import time
 import math
-
-
-def getText(element: WebElement, by: By, by_value: str):
-    try:
-        return element.find_element(by, by_value).text
-    except Exception:
-        return ""
-
-
-def getAttribute(element: WebElement, attribute_name: str):
-    try:
-        return element.get_attribute(attribute_name)
-    except Exception:
-        return ""
-
 
 def clickNTimes(data_count, driver: WebDriver):
     PAGINATION_LIMIT = 50
