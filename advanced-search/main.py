@@ -72,8 +72,8 @@ dataset = []
 for idx, elem in enumerate(elems):
     dataset.append(getListItemData(elem))
     if idx != 0 and idx % 50 == 49:
-        print(f'progress {(idx + 1) / len(elems)}%')
+        print(f'progress {"{:.2f}".format((idx + 1) / len(elems))}%')
 
 df = pd.DataFrame(dataset)
-df.to_csv("./out_final.csv")
+df.to_csv("./out_final2.csv")
 driver.quit()
