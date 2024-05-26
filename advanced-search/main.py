@@ -3,6 +3,9 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.remote.webelement import WebElement
 from selenium.webdriver.remote.webdriver import WebDriver
+import sys 
+import os
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 from common.getters import getAttribute, getText
 
 # from selenium.webdriver.support.wait import WebDriverWait
@@ -52,6 +55,8 @@ driver = webdriver.Chrome()
 driver.get(url)
 driver.implicitly_wait(10)
 clickNTimes(data_count, driver)
+
+input('Clicking Finished, Verify by Pressing enter')
 
 elems = driver.find_elements(By.CLASS_NAME, "dli-parent")
 dataset = []
