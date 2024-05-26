@@ -39,6 +39,7 @@ def getDetail(element: WebDriver):
 def getDetailByLink(url: str):
     driver = webdriver.Chrome()
     driver.get(url)
+    driver.maximize_window()
     driver.implicitly_wait(10)
     detail = getDetail(driver)
     driver.quit()
