@@ -1,5 +1,6 @@
 import pandas as pd
 from selenium import webdriver
+from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
 from selenium.webdriver.remote.webelement import WebElement
 from selenium.webdriver.remote.webdriver import WebDriver
@@ -16,7 +17,9 @@ from common.getters import getTexts, getTextByIndex, getAttribute, getText
 def getDetail(element: WebDriver):
     headerSectionElement = element.find_element(By.TAG_NAME, "h1")
     episodesSectionElement = element.find_element(By.ID, "browse-episodes-season").find_element(By.XPATH, '../../../../../..')
-    reviewCardElement = element.find_elements(By.CLASS_NAME, "ipc-icon--more-vert")[1].find_element(By.XPATH, '../../../../..')
+    preReviewCardElement = element.find_elements(By.CLASS_NAME, "ipc-icon--more-vert")
+    preReviewCardElementIdx = 1 if len(preReviewCardElement) > 1 else 0
+    reviewCardElement = preReviewCardElement[preReviewCardElementIdx].find_element(By.XPATH, '../../../../..')
     return {
         "duration": headerSectionElement.find_element(By.XPATH, '..').find_elements(By.TAG_NAME, "li")[-1].text, 
         "genres": getTexts(
@@ -37,7 +40,9 @@ def getDetail(element: WebDriver):
     }
 
 def getDetailByLink(url: str):
-    driver = webdriver.Chrome()
+    # options = Options()
+    # options.add_argument("--headless=new")
+    driver = webdriver.Chrome()#options=options)
     driver.get(url)
     driver.maximize_window()
     driver.implicitly_wait(10)

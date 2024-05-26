@@ -5,7 +5,7 @@ csv_dir = input('list of items in csv dir: ')
 df = pd.read_csv(csv_dir)
 
 detail_data = []
-for i in range(5):
+for i in range(len(df)):
     item = df.loc[i]
     print(item)
     url = item['link']
