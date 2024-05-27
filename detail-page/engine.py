@@ -16,7 +16,10 @@ from common.getters import getTexts, getTextByIndex, getAttribute, getText
 
 def getDetail(element: WebDriver):
     headerSectionElement = element.find_element(By.TAG_NAME, "h1")
-    episodesSectionElement = element.find_element(By.ID, "browse-episodes-season").find_element(By.XPATH, '../../../../../..')
+    try:
+        episodesSectionElement = element.find_element(By.ID, "browse-episodes-season").find_element(By.XPATH, '../../../../../..')
+    except:
+        episodesSectionElement = None
     preReviewCardElement = element.find_elements(By.CLASS_NAME, "ipc-icon--more-vert")
     preReviewCardElementIdx = 1 if len(preReviewCardElement) > 1 else 0
     reviewCardElement = preReviewCardElement[preReviewCardElementIdx].find_element(By.XPATH, '../../../../..')
@@ -35,7 +38,7 @@ def getDetail(element: WebDriver):
             "ipc-metadata-list-item__list-content-item--link",
         ),
         "seasons": getAttribute(element.find_element(By.ID, "browse-episodes-season"), "aria-label").split()[0],
-        "episodes": getText(episodesSectionElement, By.CLASS_NAME, "ipc-title__subtext"),
+        "episodes": '1' if episodesSectionElement == None else getText(episodesSectionElement, By.CLASS_NAME, "ipc-title__subtext"),
         "review": getText(reviewCardElement, By.CLASS_NAME, "ipc-html-content-inner-div")
     }
 
