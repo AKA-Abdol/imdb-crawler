@@ -65,7 +65,7 @@ def add_paragraphs(doc, paragraphs, direction="rtl"):
     return doc
 
 
-def add_styled_text(run, style):
+def add_styled_text(p, run, style, direction = 'rtl'):
     if "font_name" in style:
         run.font.name = style["font_name"]
         r = run._element
@@ -82,18 +82,30 @@ def add_styled_text(run, style):
 
     if "italic" in style:
         run.italic = style["italic"]
+    
+    # Set text direction
+    if direction == "rtl":
+        pPr = p._element.get_or_add_pPr()
+        bidi = OxmlElement("w:bidi")
+        pPr.append(bidi)
+    elif direction == "ltr":
+        pPr = p._element.get_or_add_pPr()
+        bidi = pPr.find(qn("w:bidi"))
+        if bidi is not None:
+            pPr.remove(bidi)
 
 
 # Function to add a styled table to a document
 def add_styled_table(doc, table_data):
     table = doc.add_table(rows=1, cols=len(table_data[0]))
+    table.style = 'Table Grid'
     hdr_cells = table.rows[0].cells
 
     # Adding the header row with styles
     for i, (header, style) in enumerate(table_data[0]):
         hdr_paragraph = hdr_cells[i].paragraphs[0]
         hdr_run = hdr_paragraph.add_run(header)
-        add_styled_text(hdr_run, style)
+        add_styled_text(hdr_paragraph, hdr_run, style)
 
     # Adding the rest of the table data with styles
     for row_data in table_data[1:]:
@@ -101,7 +113,7 @@ def add_styled_table(doc, table_data):
         for i, (cell_text, style) in enumerate(row_data):
             cell_paragraph = row_cells[i].paragraphs[0]
             cell_run = cell_paragraph.add_run(cell_text)
-            add_styled_text(cell_run, style)
+            add_styled_text(cell_paragraph, cell_run, style)
 
     return doc
 
@@ -118,9 +130,9 @@ for i in range(2):
         (
             "فرم تحلیل برنامه ها",
             {
-                "font_name": "Arial",
+                "font_name": "Baghdad",
                 "font_size": 20,
-                "font_color": (0, 0, 255),  # RGB (Red, Green, Blue)
+                "font_color": (0, 0, 0),  # RGB (Red, Green, Blue)
                 "bold": True,
                 "italic": False,
                 "centered": True
@@ -129,9 +141,9 @@ for i in range(2):
         (
             f"{title.split('.')[1].strip()} / ({record['year']})".replace("\n", " "),
             {
-                "font_name": "Arial",
-                "font_size": 18,
-                "font_color": (0, 0, 255),  # RGB (Red, Green, Blue)
+                "font_name": "Baghdad",
+                "font_size": 16,
+                "font_color": (0, 0, 0),  # RGB (Red, Green, Blue)
                 "bold": True,
                 "italic": False,
             },
@@ -139,8 +151,8 @@ for i in range(2):
         (
             record["content"].replace("\n", ""),
             {
-                "font_name": "Arial",
-                "font_size": 14,
+                "font_name": "Baghdad",
+                "font_size": 16,
                 "font_color": (0, 0, 0),  # RGB (Red, Green, Blue)
                 "bold": False,
                 "italic": False,
@@ -150,9 +162,9 @@ for i in range(2):
             record["link"],
             {
                 "font_name": "Arial",
-                "font_size": 14,
+                "font_size": 16,
                 "font_color": (0, 0, 255),  # RGB (Red, Green, Blue)
-                "bold": False,
+                "bold": True,
                 "italic": True,
             },
         ),
@@ -166,30 +178,30 @@ for i in range(2):
             (
                 "اطلاعات",
                 {
-                    "font_name": "Arial",
-                    "font_size": 14,
+                    "font_name": "Baghdad",
+                    "font_size": 16,
                     "font_color": (0, 0, 0),
-                    "bold": True,
+                    "bold": False,
                     "italic": False,
                 },
             ),
             (
                 "مقوله",
                 {
-                    "font_name": "Arial",
-                    "font_size": 14,
+                    "font_name": "Baghdad",
+                    "font_size": 16,
                     "font_color": (0, 0, 0),
-                    "bold": True,
+                    "bold": False,
                     "italic": False,
                 },
             ),
             (
                 "ردیف",
                 {
-                    "font_name": "Arial",
-                    "font_size": 14,
+                    "font_name": "Baghdad",
+                    "font_size": 16,
                     "font_color": (0, 0, 0),
-                    "bold": True,
+                    "bold": False,
                     "italic": False,
                 },
             ),
@@ -206,7 +218,7 @@ for i in range(2):
                     data.split(".")[0] if context in ["seasons", "episodes"] else data,
                     {
                         "font_name": "Times New Roman",
-                        "font_size": 12,
+                        "font_size": 16,
                         "font_color": (0, 0, 0),
                         "bold": False,
                         "italic": False,
@@ -215,8 +227,8 @@ for i in range(2):
                 (
                     table_translation[context],
                     {
-                        "font_name": "Times New Roman",
-                        "font_size": 12,
+                        "font_name": "Baghdad",
+                        "font_size": 14,
                         "font_color": (0, 0, 0),
                         "bold": False,
                         "italic": False,
@@ -225,8 +237,8 @@ for i in range(2):
                 (
                     f"{idx + 1}.",
                     {
-                        "font_name": "Times New Roman",
-                        "font_size": 12,
+                        "font_name": "Baghdad",
+                        "font_size": 14,
                         "font_color": (0, 0, 0),
                         "bold": False,
                         "italic": False,
@@ -241,7 +253,7 @@ for i in range(2):
                 "",
                 {
                     "font_name": "Times New Roman",
-                    "font_size": 12,
+                    "font_size": 16,
                     "font_color": (0, 0, 0),
                     "bold": False,
                     "italic": False,
@@ -250,8 +262,8 @@ for i in range(2):
             (
                 "کمپانی",
                 {
-                    "font_name": "Times New Roman",
-                    "font_size": 12,
+                    "font_name": "Baghdad",
+                    "font_size": 14,
                     "font_color": (0, 0, 0),
                     "bold": False,
                     "italic": False,
@@ -260,8 +272,8 @@ for i in range(2):
             (
                 "7.",
                 {
-                    "font_name": "Times New Roman",
-                    "font_size": 12,
+                    "font_name": "Baghdad",
+                    "font_size": 14,
                     "font_color": (0, 0, 0),
                     "bold": False,
                     "italic": False,
@@ -276,7 +288,7 @@ for i in range(2):
                 "",
                 {
                     "font_name": "Times New Roman",
-                    "font_size": 12,
+                    "font_size": 16,
                     "font_color": (0, 0, 0),
                     "bold": False,
                     "italic": False,
@@ -285,8 +297,8 @@ for i in range(2):
             (
                 "تعداد قسمت دیده شده",
                 {
-                    "font_name": "Times New Roman",
-                    "font_size": 12,
+                    "font_name": "Baghdad",
+                    "font_size": 14,
                     "font_color": (0, 0, 0),
                     "bold": False,
                     "italic": False,
@@ -295,8 +307,8 @@ for i in range(2):
             (
                 "8.",
                 {
-                    "font_name": "Times New Roman",
-                    "font_size": 12,
+                    "font_name": "Baghdad",
+                    "font_size": 14,
                     "font_color": (0, 0, 0),
                     "bold": False,
                     "italic": False,
