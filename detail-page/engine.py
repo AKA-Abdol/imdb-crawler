@@ -20,9 +20,19 @@ def getDetail(element: WebDriver):
         episodesSectionElement = element.find_element(By.ID, "browse-episodes-season").find_element(By.XPATH, '../../../../../..')
     except:
         episodesSectionElement = None
+        
     preReviewCardElement = element.find_elements(By.CLASS_NAME, "ipc-icon--more-vert")
-    preReviewCardElementIdx = 1 if len(preReviewCardElement) > 1 else 0
-    reviewCardElement = preReviewCardElement[preReviewCardElementIdx].find_element(By.XPATH, '../../../../..')
+    if len(preReviewCardElement) == 0:
+        review = ''
+    else:
+        preReviewCardElementIdx = 1 if len(preReviewCardElement) > 1 else 0
+        reviewCardElement = preReviewCardElement[preReviewCardElementIdx].find_element(By.XPATH, '../../../../..')
+        review = getText(reviewCardElement, By.CLASS_NAME, "ipc-html-content-inner-div")
+    try:
+        seasonCount = getAttribute(element.find_element(By.ID, "browse-episodes-season"), "aria-label").split()[0]
+    except:
+        seasonCount = 1
+
     return {
         "duration": headerSectionElement.find_element(By.XPATH, '..').find_elements(By.TAG_NAME, "li")[-1].text, 
         "genres": getTexts(
@@ -37,9 +47,9 @@ def getDetail(element: WebDriver):
             By.CLASS_NAME,
             "ipc-metadata-list-item__list-content-item--link",
         ),
-        "seasons": getAttribute(element.find_element(By.ID, "browse-episodes-season"), "aria-label").split()[0],
+        "seasons": seasonCount,
         "episodes": '1' if episodesSectionElement == None else getText(episodesSectionElement, By.CLASS_NAME, "ipc-title__subtext"),
-        "review": getText(reviewCardElement, By.CLASS_NAME, "ipc-html-content-inner-div")
+        "review": review
     }
 
 def getDetailByLink(url: str):
