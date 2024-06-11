@@ -121,7 +121,7 @@ def add_styled_table(doc, table_data):
 csv_path = "./delivery.csv"
 df = pd.read_csv(csv_path)
 
-for i in range(2):
+for i in range(len(df)):
     # Load an existing Word document or create a new one
     doc = Document()
     record = df.loc[i]
