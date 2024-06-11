@@ -1,0 +1,52 @@
+just generate log lines with about 30 words in farsi (persian) language, for the below show title names without any redundant info before and after log line for every show name and also divide loglines using '''/''' character:
+First Dates
+Queer Eye: Germany
+Bondi Rescue
+Nailed It! Holiday!
+Food Network Star
+Girls Incarcerated: Young and Locked Up
+High Stakes Poker
+Drink Masters
+Wie is de Mol?
+The Real L Word
+Flip This House
+America's Best Dance Crew
+Busted!
+Below Deck Down Under
+Stay Here
+Instant Dream Home
+Expedition X
+Big Brother Canada
+The Ultimatum: Queer Love
+Man, Woman, Wild
+The Two Coreys
+The People's Court
+Hotel Impossible
+Race Across the World
+Dirty Jobs
+The Parisian Agency: Exclusive Properties
+Street Outlaws
+Ninja Warrior
+Terrace House: Aloha State
+Portals to Hell
+Bake Squad
+What Would You Do?
+Fuck, That's Delicious
+Nightwatch
+Good Bones
+Drag Race Holland
+The Family Stallone
+Pressure Cooker
+GameSpot TV
+Terrace House: Opening New Doors
+Wicked Tuna
+The Last Alaskans
+Masterchef Goes Large
+Restaurants on the Edge
+Dragons' Den
+Just for Laughs Gags
+FETCH! with Ruff Ruffman
+Special Forces: World's Toughest Test
+Doomsday Preppers
+The Little Couple
+Hangar 1: The UFO Files

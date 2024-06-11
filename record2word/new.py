@@ -118,7 +118,7 @@ def add_styled_table(doc, table_data):
     return doc
 
 
-csv_path = "./out_detailed_50.csv"
+csv_path = "./delivery.csv"
 df = pd.read_csv(csv_path)
 
 for i in range(2):
@@ -149,7 +149,7 @@ for i in range(2):
             },
         ),
         (
-            record["content"].replace("\n", ""),
+            record["fa_logline"].replace("\n", ""),
             {
                 "font_name": "Baghdad",
                 "font_size": 16,
