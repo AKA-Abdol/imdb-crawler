@@ -320,4 +320,4 @@ for i in range(len(df)):
     existing_doc_path = "./record2word/Form.docx"
     existing_doc = Document(existing_doc_path)
     add_existing_doc_at_end(doc, existing_doc)
-    doc.save(f".words/{title}.docx")
+    doc.save(f".words/{title.replace('?', '')}.docx")
